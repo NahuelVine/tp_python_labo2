@@ -13,3 +13,15 @@ Por el lado de la configuración, los estaremos almacenando dentro de un archivo
 
 - [Diagrama de flujo](https://www.figma.com/board/AJw4LHpZxG0cLZvB0lLh7a/Python--Ahorcado---DdF?node-id=0-1&p=f&t=nl4ETWnoer0KStWP-0)
 - [Componentes](https://www.figma.com/design/OzTVKNx9EzMjHEE3mPloyz/Python--Ahorcado---Componentes?node-id=0-1&p=f&m=draw)
+
+### Librerias externas
+
+- [Tkinter](https://docs.python.org/3/library/tkinter.html)
+
+### Instalacion
+
+1. Abrimos una terminal en la ruta del proyecto
+2. Creamos un entorno virtual con el comando `python -m venv venv`
+3. Iniciamos el entorno virtual con el comando `venv\Scripts\activate`
+4. (SI EL ARCHIVO REQUIREMENTS.TXT ESTA VACIO, SALTEAR PASO) Instalamos las librerias necesarias con `python -m pip install -r requirements.txt`
+5. Ejecutamos la app con `python -m main.py`(La flag -m indica que ese archivo .py es el main)
