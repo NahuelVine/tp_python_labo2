@@ -25,4 +25,8 @@ Por el lado de la configuración, los estaremos almacenando dentro de un archivo
 2. Creamos un entorno virtual con el comando `python -m venv venv`
 3. Iniciamos el entorno virtual con el comando `venv\Scripts\activate`
 4. Instalamos las librerias necesarias con `python -m pip install -r requirements.txt`
-5. Ejecutamos la app con `pstreamlit run src/main.py`
+
+### Ejecucion
+
+- Ejecutamos la app con `streamlit run src/main.py` de forma local.
+- Ingresamos a la [url del proyecto](https://tppythonlabo2-cz5yp8yfklqbr5qmhrwrba.streamlit.app/) hosteado por streamlit.
