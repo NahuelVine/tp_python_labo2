@@ -1,0 +1,26 @@
+.stApp {
+  background-color: var(--fondo);
+}
+[data-testid="stVerticalBlock"] {
+  gap: var(--separacion);
+}
+
+.stButton {
+  display: flex;
+  justify-content: center;
+}
+.stButton > button {
+  width: var(--boton-ancho);
+  height: var(--boton-alto);
+  background-color: var(--boton-color);
+  color: #000;
+  border: none;
+  border-radius: 20px;
+}
+.stButton > button p {
+  font-size: 28px;
+}
+.stButton > button:hover {
+  background-color: #a5a5a5;
+  color: #000;
+}
