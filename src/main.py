@@ -5,13 +5,14 @@ from html import escape
 from pathlib import Path
 # GUI de la app
 import streamlit as st
+from PIL import Image
 
 # Aseguramos que el script apunte a la carpeta del proyecto
-RAIZ = Path(__file__).resolve().parent.parent
+raiz_path = Path(__file__).resolve().parent.parent
 # Assets
-sys.path.append(str(RAIZ))
+sys.path.append(str(raiz_path))
 # Config
-sys.path.append(str(RAIZ / "src"))      
+sys.path.append(str(raiz_path / "src"))      
 
 
 # Configuracion y assets
@@ -23,7 +24,7 @@ def volver_al_menu():
     st.session_state["pantalla"] = "menu"
 # Añadimos el boton a la pantalla de juego
 if st.session_state.get("pantalla") == "juego":
-    runpy.run_path(str(RAIZ / "Ahorcado.py"))
+    runpy.run_path(str(raiz_path / "Ahorcado.py"))
     st.sidebar.button("⬅ Volver al menú principal", on_click=volver_al_menu)
     st.stop()
 
@@ -33,11 +34,12 @@ configuracion = config.cargar()
 idioma = configuracion["idioma"]
 ancho, _alto = configuracion["tamano"].split("x")
 textos = assets.BOTON_TEXTOS[idioma]
+icon = raiz_path/"Assets"/"icon.png"
 
 # Configuracion de la ventana de pagina
 st.set_page_config(
     page_title=assets.VENTANA_TITULO[idioma]["titulo"],
-    page_icon="🎯",
+    page_icon=Image.open(icon) if icon.exists() else "➰",
     layout="centered",
 )
 
@@ -55,7 +57,7 @@ def cargar_css():
     """
     # Importamos la fuente Anton para el texto
     fuente = "@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap');"
-    css = (RAIZ/"Assets"/"styles.css").read_text(encoding="utf-8") # Con encoding UTf-8 nos aseguramos que se muestren todos los caracteres necesarios
+    css = (raiz_path/"Assets"/"styles.css").read_text(encoding="utf-8") # Con encoding UTf-8 nos aseguramos que se muestren todos los caracteres necesarios
     st.markdown(f"<style>{fuente}{variables}{css}</style>", unsafe_allow_html=True)
 
 cargar_css()
@@ -71,6 +73,9 @@ def cambiar_idioma():
     cfg["idioma"] = "en" if cfg["idioma"] == "es" else "es"
     config.guardar(cfg)
 
+# Streamlit trabaja en cascada, por eso es importante el orden del armado: Header -> Menu -> Footer
+
+# HEADER
 # Armamos el HTML del titulo
 titulo = assets.TITULO[idioma]
 st.markdown(
@@ -82,8 +87,15 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# HTML encabezado + botonera
-with st.container(key="menu"):
+# MENU
+# Mascota + botonera
+col_mascota, col_menu = st.columns([301, 440], vertical_alignment="bottom")
+with col_mascota:
+    logo = raiz_path/"Assets"/"mascot_logo.png"
+    if logo.exists():
+        st.image(Image.open(logo), width=187)
+
+with col_menu, st.container(key="menu"):
     st.markdown(
         f"<div class='menu-encabezado'>{escape(assets.MENU_ENCABEZADO[idioma])}</div>",
         unsafe_allow_html=True,
@@ -91,7 +103,7 @@ with st.container(key="menu"):
     st.button(textos["btn_jugar"], key="btn_jugar", on_click=seleccionar_jugar)
     st.button(textos["btn_idioma"], key="btn_idioma", on_click=cambiar_idioma)
 
-# HTML footer
+# FOOTER
 footer = assets.FOOTER[idioma]
 st.markdown(
     "<div class='footer'>"

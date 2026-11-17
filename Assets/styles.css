@@ -61,9 +61,11 @@ header[data-testid="stHeader"] {
 /* MENU */
 .st-key-menu {
   max-width: 440px;
-  margin-inline: auto;
   gap: 36px;
   margin-top: 24px;
+}
+[data-testid="stImage"] img {
+  image-rendering: pixelated;
 }
 .st-key-menu [data-testid="stElementContainer"],
 .st-key-menu .stButton {
