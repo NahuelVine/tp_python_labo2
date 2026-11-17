@@ -2,6 +2,7 @@
 import sys
 from html import escape
 from pathlib import Path
+import runpy
 
 RAIZ = Path(__file__).resolve().parent.parent
 sys.path.append(str(RAIZ))              # para importar Assets
@@ -14,6 +15,15 @@ from PIL import Image
 # Librerias custom de configuracion
 from Assets import assets
 import config
+
+# --- Pantalla de juego: muestra el contenido de Ahorcado.py ---
+def volver_al_menu():
+    st.session_state["pantalla"] = "menu"
+
+if st.session_state.get("pantalla") == "juego":
+    runpy.run_path(str(RAIZ / "Ahorcado.py"))
+    st.sidebar.button("⬅ Volver al menú principal", on_click=volver_al_menu)
+    st.stop()
 
 # Cargamos configuracion
 configuracion = config.cargar()
@@ -47,8 +57,8 @@ cargar_css()
 
 # Streamlit vuelve a ejecutar este script en cada clic, por eso la
 # opcion elegida se guarda en session_state
-def seleccionar_jugar(accion):
-    st.session_state["accion"] = accion
+def ir_a_juego():
+    st.session_state["pantalla"] = "juego"
 
 # Alterna el idioma entre "es" y "en" y lo guarda en config.txt
 # (recarga la config adentro para no usar valores de la ejecucion anterior)
@@ -70,5 +80,5 @@ st.markdown(
 )
 
 # Crear y mostrar botones (on_click corre antes del script, asi el mensaje se actualiza)
-st.button(textos["btn_jugar"], on_click=seleccionar_jugar, args=("jugar",))
+st.button(textos["btn_jugar"], on_click=ir_a_juego)
 st.button(textos["btn_idioma"], on_click=cambiar_idioma)
