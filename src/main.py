@@ -1,25 +1,27 @@
-# Aseguramos que el script apunte a la carpeta del proyecto
+import json
+import runpy
 import sys
 from html import escape
 from pathlib import Path
-import runpy
-
-RAIZ = Path(__file__).resolve().parent.parent
-sys.path.append(str(RAIZ))              # para importar Assets
-sys.path.append(str(RAIZ / "src"))      # para importar config
-
-# Librerias GUI
+# GUI de la app
 import streamlit as st
-from PIL import Image
 
-# Librerias custom de configuracion
+# Aseguramos que el script apunte a la carpeta del proyecto
+RAIZ = Path(__file__).resolve().parent.parent
+# Assets
+sys.path.append(str(RAIZ))
+# Config
+sys.path.append(str(RAIZ / "src"))      
+
+
+# Configuracion y assets
 from Assets import assets
 import config
 
-# --- Pantalla de juego: muestra el contenido de Ahorcado.py ---
+# Funcion para volver al menu principal desde la pantalla del minijuego Ahorcado.py
 def volver_al_menu():
     st.session_state["pantalla"] = "menu"
-
+# Añadimos el boton a la pantalla de juego
 if st.session_state.get("pantalla") == "juego":
     runpy.run_path(str(RAIZ / "Ahorcado.py"))
     st.sidebar.button("⬅ Volver al menú principal", on_click=volver_al_menu)
@@ -27,58 +29,74 @@ if st.session_state.get("pantalla") == "juego":
 
 # Cargamos configuracion
 configuracion = config.cargar()
+# El idioma va a determinar como mostramos los textos
 idioma = configuracion["idioma"]
 ancho, _alto = configuracion["tamano"].split("x")
 textos = assets.BOTON_TEXTOS[idioma]
 
-# Configuracion de la pagina (tiene que ser lo primero de Streamlit)
-icono = RAIZ / "Assets" / "logo.png"
+# Configuracion de la ventana de pagina
 st.set_page_config(
     page_title=assets.VENTANA_TITULO[idioma]["titulo"],
-    page_icon=Image.open(icono) if icono.exists() else "🎯",
+    page_icon="🎯",
     layout="centered",
 )
 
-# Estilos de la pagina: color de fondo y ancho maximo segun la configuracion
+# Estilos para la pagina
+# Diseño sale de styles.css 
+# Textos/colores de assets.py
 def cargar_css():
+    tarjetas = assets.MENU_TARJETAS[idioma]
     variables = f"""
     :root {{
         --fondo: {assets.VENTANA_BG};
-        --separacion: {assets.BOTON_SEPARACION}px;
-        --boton-ancho: {assets.BOTON_ANCHO}px;
-        --boton-alto: {assets.BOTON_ALTO}px;
-        --boton-color: {assets.BOTON_COLOR};
+        --desc-jugar: {json.dumps(tarjetas["jugar"], ensure_ascii=False)};
+        --desc-idioma: {json.dumps(tarjetas["idioma"], ensure_ascii=False)};
     }}
     """
-    css = (RAIZ / "Assets" / "styles.css").read_text(encoding="utf-8")
-    st.markdown(f"<style>{variables}{css}</style>", unsafe_allow_html=True)
+    # Importamos la fuente Anton para el texto
+    fuente = "@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap');"
+    css = (RAIZ/"Assets"/"styles.css").read_text(encoding="utf-8") # Con encoding UTf-8 nos aseguramos que se muestren todos los caracteres necesarios
+    st.markdown(f"<style>{fuente}{variables}{css}</style>", unsafe_allow_html=True)
 
 cargar_css()
 
 # Streamlit vuelve a ejecutar este script en cada clic, por eso la
 # opcion elegida se guarda en session_state
-def ir_a_juego():
+def seleccionar_jugar():
     st.session_state["pantalla"] = "juego"
 
 # Alterna el idioma entre "es" y "en" y lo guarda en config.txt
-# (recarga la config adentro para no usar valores de la ejecucion anterior)
 def cambiar_idioma():
     cfg = config.cargar()
     cfg["idioma"] = "en" if cfg["idioma"] == "es" else "es"
     config.guardar(cfg)
-    st.session_state["accion"] = "idioma"
 
-# Mensaje de la opcion seleccionada (linea de alto fijo para que no salte el layout)
-mensajes = {
-    "jugar": textos["lbl_jugar"],
-    "idioma": textos["lbl_idioma"]
-}
-mensaje = mensajes.get(st.session_state.get("accion"), "")
+# Armamos el HTML del titulo
+titulo = assets.TITULO[idioma]
 st.markdown(
-    f"<p style='text-align:center; color:#000; min-height:2em;'>{escape(mensaje)}</p>",
+    "<div class='titulo'><div class='titulo-caja'>"
+    f"<div class='titulo-genero'>{escape(titulo['genero'])}</div>"
+    f"<div class='titulo-nombre'>{escape(titulo['nombre'])}</div>"
+    f"<div class='titulo-promesa'>{escape(titulo['promesa'])}</div>"
+    "</div></div>",
     unsafe_allow_html=True,
 )
 
-# Crear y mostrar botones (on_click corre antes del script, asi el mensaje se actualiza)
-st.button(textos["btn_jugar"], on_click=ir_a_juego)
-st.button(textos["btn_idioma"], on_click=cambiar_idioma)
+# HTML encabezado + botonera
+with st.container(key="menu"):
+    st.markdown(
+        f"<div class='menu-encabezado'>{escape(assets.MENU_ENCABEZADO[idioma])}</div>",
+        unsafe_allow_html=True,
+    )
+    st.button(textos["btn_jugar"], key="btn_jugar", on_click=seleccionar_jugar)
+    st.button(textos["btn_idioma"], key="btn_idioma", on_click=cambiar_idioma)
+
+# HTML footer
+footer = assets.FOOTER[idioma]
+st.markdown(
+    "<div class='footer'>"
+    f"<span class='footer-creditos'>{escape(footer['creditos'])}</span>"
+    f"<span class='footer-version'>{escape(footer['idioma'])}/{escape(assets.VERSION)}</span>"
+    "</div>",
+    unsafe_allow_html=True,
+)

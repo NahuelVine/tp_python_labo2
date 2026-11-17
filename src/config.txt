@@ -1,2 +1,2 @@
-idioma=es
+idioma=en
 tamano=640x800
