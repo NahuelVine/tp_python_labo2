@@ -1,22 +1,24 @@
-import os
-# Nos aseguramos que el siempre busque el archivo en la direccion del proyecto
-from pathlib import Path
-archivo =  Path(__file__).parent / "config.txt"
-default = {"idioma": "es", "tamano": "640x800"}
+import streamlit as st
+import streamlit.components.v1 as components
 
-def cargar():
-    config = default.copy()
-    # Nos aseguramos que el archivo a buscar exista, sino, usamos los valores predeterminados
-    if os.path.exists(archivo):
-        with open(archivo, "r", encoding="UTF-8") as file:
-            for linea in file:
-                if "=" in linea:
-                    key, valor = linea.strip().split("=", 1)
-                    if key in config:
-                        config[key] = valor
-    return config
+lista_idiomas = ("es", "en")
+cookie_default = "es"
+cookie_nombre = "idioma"
+cookie_fecha = 60 * 60 * 24 * 365 # Dura un año
 
-def guardar(config):
-    with open(archivo, "w", encoding="UTF-8") as file:
-        for key, valor in config.items():
-            file.write(f"{key}={valor}\n")
+def cargar_idioma():
+    if cookie_nombre not in st.session_state:
+        valor = st.context.cookies.get(cookie_nombre, cookie_default)
+        st.session_state[cookie_nombre] = valor if valor in lista_idiomas else cookie_default
+    return st.session_state[cookie_nombre]
+
+def guardar_idioma(idioma: str):
+    st.session_state[cookie_nombre] = idioma
+
+def sincronizar_cookie():
+    idioma = st.session_state[cookie_nombre]
+    components.html(
+        f"<script>window.parent.document.cookie = "
+        f"'{cookie_nombre}={idioma}; path=/; max-age={cookie_fecha}; SameSite=Lax';</script>",
+        height=0,
+    )

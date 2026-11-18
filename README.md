@@ -7,7 +7,7 @@
 Juego del ahorcado creado en Python, donde se tendrá que descubrir la palabra secreta.
 El juego tendrá soporte multilingüe, para seleccionar el idioma preferido.
 Se almacenan todos los datos principales de gameplay dentro de archivos binarios ".dat", con la idea de que el jugador no pueda hacer trampa.
-Por el lado de la configuración, los estaremos almacenando dentro de un archivo ".txt".
+Por el lado de la configuración, los estaremos almacenando en el navegador como cookie de forma local para cada usuario.
 
 ### Diagramas
 

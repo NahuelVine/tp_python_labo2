@@ -12,7 +12,7 @@ raiz_path = Path(__file__).resolve().parent.parent
 # Assets
 sys.path.append(str(raiz_path))
 # Config
-sys.path.append(str(raiz_path / "src"))      
+sys.path.append(str(raiz_path/"src"))      
 
 
 # Configuracion y assets
@@ -29,10 +29,7 @@ if st.session_state.get("pantalla") == "juego":
     st.stop()
 
 # Cargamos configuracion
-configuracion = config.cargar()
-# El idioma va a determinar como mostramos los textos
-idioma = configuracion["idioma"]
-ancho, _alto = configuracion["tamano"].split("x")
+idioma = config.cargar_idioma()
 textos = assets.BOTON_TEXTOS[idioma]
 icon = raiz_path/"Assets"/"icon.png"
 
@@ -67,11 +64,9 @@ cargar_css()
 def seleccionar_jugar():
     st.session_state["pantalla"] = "juego"
 
-# Alterna el idioma entre "es" y "en" y lo guarda en config.txt
+# Alterna el idioma entre "es" y "en"
 def cambiar_idioma():
-    cfg = config.cargar()
-    cfg["idioma"] = "en" if cfg["idioma"] == "es" else "es"
-    config.guardar(cfg)
+    config.guardar_idioma("en" if st.session_state["idioma"] == "es" else "es")
 
 # Streamlit trabaja en cascada, por eso es importante el orden del armado: Header -> Menu -> Footer
 
@@ -112,3 +107,6 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True,
 )
+
+# Al final para evitar modificar la interfaz
+config.sincronizar_cookie()
