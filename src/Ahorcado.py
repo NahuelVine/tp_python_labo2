@@ -45,6 +45,18 @@ st.markdown("""
         background-color: rgba(255, 255, 255, 0.05) !important;
         border-radius: 10px;
     }
+    /* BOTON DE SIDEBAR */
+    [data-testid="stSidebarCollapseButton"] button span[aria-hidden="true"],
+    [data-testid="stExpandSidebarButton"] span[aria-hidden="true"] {
+        font-size: 0 !important;          /* oculta el texto "keyboard_double_arrow_..." */
+    }
+    [data-testid="stSidebarCollapseButton"] button span[aria-hidden="true"]::before,
+    [data-testid="stExpandSidebarButton"] span[aria-hidden="true"]::before {
+        content: "☰";
+        font-size: 22px;
+        line-height: 1;
+        font-family: sans-serif !important;   /* Impact no tiene este símbolo */
+    }
 
     .stButton>button, .stNumberInput input {
         font-family: 'Impact', sans-serif !important;
