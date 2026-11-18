@@ -1,9 +1,14 @@
+# Desarrolladores Nahuel Iovine y Marcos Zurita Tropea
+
+# Archivo para manejar la configuración local del usuario, como es el idioma.
+
 import streamlit as st
 import streamlit.components.v1 as components
 
 lista_idiomas = ("es", "en")
 cookie_default = "es"
 cookie_nombre = "idioma"
+# Las cookies tienen que tener una fecha limite establecida
 cookie_fecha = 60 * 60 * 24 * 365 # Dura un año
 
 def cargar_idioma():
@@ -16,6 +21,8 @@ def guardar_idioma(idioma: str):
 
 def sincronizar_cookie():
     idioma = st.session_state[cookie_nombre]
+    # Originalmente el idioma se guardaba en un txt
+    # Se paso a cookie para que sea un valor interno del navegador del jugador, no a nivel servidor.
     components.html(
         f"<script>window.parent.document.cookie = "
         f"'{cookie_nombre}={idioma}; path=/; max-age={cookie_fecha}; SameSite=Lax';</script>",

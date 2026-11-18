@@ -1,3 +1,8 @@
+# Desarrolladores Nahuel Iovine y Marcos Zurita Tropea
+
+# Archivo donde tendremos guardado variables de componentes visuales: Colores, Tamaños y Textos
+# La separación entre "es" y "en" radica entre tener elegido el idioma Español o Ingles.
+
 # VENTANA
 VENTANA_TITULO = {
     "es": {

@@ -1,16 +1,23 @@
 # Desarrollado por Nahuel Iovine y Marcos Zurita Tropea
+# Importamos 
+# json para usar dumps, ya que sino se romperia por las comillas al ser interpretado por CSS
+# runpy para poder correr el script de Ahorcado, principalmente para añadir el botón de volver al menu
+# sys para que la ruta de archivos sea dinamica, y se pueda interactuar en el servidor de streamlit
 import json, runpy, sys
+# Con escape, nos aseguramos que no se rompa los HTMLs por el uso de caracteres especiales (Ejemplo: &)
 from html import escape
+# Path usaremos para obtener la ruta de la raiz.
 from pathlib import Path
 # GUI de la app
 import streamlit as st
 from PIL import Image
 
-# Aseguramos que el script apunte a la carpeta del proyecto
+# Aseguramos que el script apunte a la carpeta raiz del proyecto
+# Path(__file__).resolve() es el path al archivo actual (main en src)
 raiz_path = Path(__file__).resolve().parent.parent
-# Assets
+# Path añadido para acceder a Assets
 sys.path.append(str(raiz_path))
-# Config
+# Path añadido para acceder a Config
 sys.path.append(str(raiz_path/"src"))      
 
 # Configuracion y assets
@@ -21,14 +28,17 @@ import config
 def volver_al_menu():
     st.session_state["pantalla"] = "menu"
 # Añadimos el boton a la pantalla de juego
+# con el fin de poder volver al menu
 if st.session_state.get("pantalla") == "juego":
     runpy.run_path(str(raiz_path/"src"/"Ahorcado.py"))
     st.sidebar.button(assets.JUEGO_TEXTOS[st.session_state["idioma"]]["volver"], on_click=volver_al_menu)
+    # Se interrumpe st de Ahorcado
     st.stop()
 
-# Cargamos configuracion
+# Cargamos configuracion (idioma de menus)
 config.cargar_idioma()
 textos = assets.BOTON_TEXTOS[st.session_state["idioma"]]
+# Cargamos el icono ventana navegador
 icon = raiz_path/"Assets"/"icon.png"
 
 # Configuracion de la ventana de pagina
@@ -83,6 +93,7 @@ st.markdown(
 
 # MENU
 # Mascota + botonera
+# Con "Columns" dividimos la fila en dos columnas. De no hacerlo de esta forma, quedaria uno arriba del otro.
 col_mascota, col_menu = st.columns([301, 440], vertical_alignment="bottom")
 with col_mascota:
     logo = raiz_path/"Assets"/"mascot_logo.png"
@@ -94,7 +105,9 @@ with col_menu, st.container(key="menu"):
         f'<div class="menu-encabezado">{escape(assets.MENU_ENCABEZADO[st.session_state["idioma"]])}</div>',
         unsafe_allow_html=True,
     )
+    # Botton jugar hace referencia a la funcion "seleccionar_jugar" creada previamente
     st.button(textos["btn_jugar"], key="btn_jugar", on_click=seleccionar_jugar)
+    # Botton idioma hace referencia a la funcion "cambiar_idioma" creada previamente
     st.button(textos["btn_idioma"], key="btn_idioma", on_click=cambiar_idioma)
 
 # FOOTER
@@ -108,4 +121,5 @@ st.markdown(
 )
 
 # Al final para evitar modificar la interfaz
+# Guardamos el cambio de idioma en la cookie
 config.sincronizar_cookie()

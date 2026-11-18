@@ -2,6 +2,11 @@
 
 ## Repositorio para el proyecto de Python: Ahorcado
 
+### Desarrolladores
+
+- Nahuel Iovine
+- Marcos Zurita Tropea
+
 ### Descripcion
 
 Juego del ahorcado creado en Python, donde se tendrá que descubrir la palabra secreta.
