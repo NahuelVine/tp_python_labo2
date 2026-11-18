@@ -10,7 +10,6 @@ def cargar_idioma():
     if cookie_nombre not in st.session_state:
         valor = st.context.cookies.get(cookie_nombre, cookie_default)
         st.session_state[cookie_nombre] = valor if valor in lista_idiomas else cookie_default
-    return st.session_state[cookie_nombre]
 
 def guardar_idioma(idioma: str):
     st.session_state[cookie_nombre] = idioma
