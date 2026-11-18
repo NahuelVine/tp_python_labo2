@@ -1,6 +1,4 @@
-import json
-import runpy
-import sys
+import json, runpy, sys
 from html import escape
 from pathlib import Path
 # GUI de la app
@@ -14,7 +12,6 @@ sys.path.append(str(raiz_path))
 # Config
 sys.path.append(str(raiz_path/"src"))      
 
-
 # Configuracion y assets
 from Assets import assets
 import config
@@ -25,17 +22,17 @@ def volver_al_menu():
 # Añadimos el boton a la pantalla de juego
 if st.session_state.get("pantalla") == "juego":
     runpy.run_path(str(raiz_path/"src"/"Ahorcado.py"))
-    st.sidebar.button("⬅ Volver al menú principal", on_click=volver_al_menu)
+    st.sidebar.button(assets.JUEGO_TEXTOS[st.session_state["idioma"]]["volver"], on_click=volver_al_menu)
     st.stop()
 
 # Cargamos configuracion
-idioma = config.cargar_idioma()
-textos = assets.BOTON_TEXTOS[idioma]
+config.cargar_idioma()
+textos = assets.BOTON_TEXTOS[st.session_state["idioma"]]
 icon = raiz_path/"Assets"/"icon.png"
 
 # Configuracion de la ventana de pagina
 st.set_page_config(
-    page_title=assets.VENTANA_TITULO[idioma]["titulo"],
+    page_title=assets.VENTANA_TITULO[st.session_state["idioma"]]["titulo"],
     page_icon=Image.open(icon) if icon.exists() else "➰",
     layout="centered",
 )
@@ -44,7 +41,7 @@ st.set_page_config(
 # Diseño sale de styles.css 
 # Textos/colores de assets.py
 def cargar_css():
-    tarjetas = assets.MENU_TARJETAS[idioma]
+    tarjetas = assets.MENU_TARJETAS[st.session_state["idioma"]]
     # Declaramos las variables para usar en el CSS, valores que se van a repetir o queremos tener a mano para modificar.
     variables = f"""
     :root {{
@@ -73,7 +70,7 @@ def cambiar_idioma():
 
 # HEADER
 # Armamos el HTML del titulo
-titulo = assets.TITULO[idioma]
+titulo = assets.TITULO[st.session_state["idioma"]]
 st.markdown(
     "<div class='titulo'><div class='titulo-caja'>"
     f"<div class='titulo-genero'>{escape(titulo['genero'])}</div>"
@@ -93,14 +90,14 @@ with col_mascota:
 
 with col_menu, st.container(key="menu"):
     st.markdown(
-        f"<div class='menu-encabezado'>{escape(assets.MENU_ENCABEZADO[idioma])}</div>",
+        f'<div class="menu-encabezado">{escape(assets.MENU_ENCABEZADO[st.session_state["idioma"]])}</div>',
         unsafe_allow_html=True,
     )
     st.button(textos["btn_jugar"], key="btn_jugar", on_click=seleccionar_jugar)
     st.button(textos["btn_idioma"], key="btn_idioma", on_click=cambiar_idioma)
 
 # FOOTER
-footer = assets.FOOTER[idioma]
+footer = assets.FOOTER[st.session_state["idioma"]]
 st.markdown(
     "<div class='footer'>"
     f"<span class='footer-creditos'>{escape(footer['creditos'])}</span>"
