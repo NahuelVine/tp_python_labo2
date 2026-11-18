@@ -45,6 +45,7 @@ st.set_page_config(
 # Textos/colores de assets.py
 def cargar_css():
     tarjetas = assets.MENU_TARJETAS[idioma]
+    # Declaramos las variables para usar en el CSS, valores que se van a repetir o queremos tener a mano para modificar.
     variables = f"""
     :root {{
         --fondo: {assets.VENTANA_BG};
@@ -52,7 +53,7 @@ def cargar_css():
         --desc-idioma: {json.dumps(tarjetas["idioma"], ensure_ascii=False)};
     }}
     """
-    # Importamos la fuente Anton para el texto
+    # Importamos la fuente Anton y Space Grotesk para los textos del menú (encabezado y botones) desde Google Fonts
     fuente = "@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap');"
     css = (raiz_path/"Assets"/"styles.css").read_text(encoding="utf-8") # Con encoding UTf-8 nos aseguramos que se muestren todos los caracteres necesarios
     st.markdown(f"<style>{fuente}{variables}{css}</style>", unsafe_allow_html=True)
