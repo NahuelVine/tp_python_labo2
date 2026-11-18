@@ -1,15 +1,15 @@
-サイヤ (Saya) + 人 (Persona) → サイヤ人 = Sayajin
-道 (Camino, Do) + 場 (Lugar) → 道場 = Dojo
-一 (Uno) + 人 (Persona) + で (Método) → 一人で = Solo
-空 (Vacío) + オーケストラ (Orquesta) → 空オケ = Karaoke
-先 (Antes, Primero) + 輩 (Generación) → 先輩 = Superior
-悪 (Maldad) + 夢 (Sueño) → 悪夢 = Pesadilla
-蓄 (Acumular) + 電 (Electricidad) + 器 (Dispositivo) → 蓄電器 = Capacitor
-自 (Uno mismo, Automático) + 転 (Rotar) + 車 (Vehículo) → 自転車 = Bicicleta
-日 (Sol) + 本 (Origen, Nacer) → 日本 = Japón
-在 (Estar, Existir) + 処 (Lugar) → 在り処 = Paradero
-食べる (Comer) + 物 (Cosa) → 食べ物 = Comida
-仕 (Oficial, Asistencia Civil) + 事 (Cosa, Asunto) → 仕事 = Trabajo
-武 (Marcial) + 士 (Oficial, Maestro) → 武士 = Guerrero
-神 (Dios) + 風 (Viento) → 神風 = Kamikaze
-護 (Defender) + 身 (Cuerpo) + 術 (Técnica) → 護身術 = Autodefensa
+SAYAJIN
+DOJO
+SOLO
+KARAOKE
+SUPERIOR
+PESADILLA
+CAPACITOR
+BICICLETA
+JAPÓN
+PARADERO
+COMIDA
+TRABAJO
+GUERRERO
+KAMIKAZE
+AUTODEFENSA

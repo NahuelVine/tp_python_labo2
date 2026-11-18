@@ -1,15 +1,15 @@
-雨 (Lluvia) +  → 彐 (Mano) → 雪 = Nieve
-氵 (Agua) + 目 (Ojo) → 泪 = Lágrima
-香 (Fragante) + 蕉 (Plátano) → 香蕉 = Banana
-讠 (Palabras) + 十 (Diez) → 计 = Contar
-八 (Separar) + 厶 (Contenido, Privado) → 公 = Público
-皿 (Vasija, Sacrificio) + 丶 (Gota, Punto) → 血 = Sangre
-再 (Otra vez) + 见 (Ver) → 再见 = Adiós
-星期 (Día de Semana) + 日 (Sol) → 星期日 = Domingo
-水 (Agua) + 平 (Plano) → 水平 = Horizontal
-拿 (Agarrar) + 来 (Venir) → 拿来 = Traer
-有 (Tener, Poseer) + 名 (Nombre) → 有名 = Fama
-王 (Rey) + 子 (Niño) → 王子 = Príncipe
-囗 (Territorio) + 玉 (Jade, Realeza, Rey) → 国 = País
-化 (Cambiar) + 学 (Estudio, Estudiar) → 化学 = Química
-小 (Pequeño) + 大 (Grande) → 尖 = Punta
+NIEVE
+LÁGRIMA
+BANANA
+CONTAR
+PÚBLICO
+SANGRE
+ADIÓS
+DOMINGO
+HORIZONTAL
+TRAER
+FAMA
+PRÍNCIPE
+PAÍS
+QUÍMICA
+PUNTA
