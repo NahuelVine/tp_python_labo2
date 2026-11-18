@@ -24,7 +24,7 @@ def volver_al_menu():
     st.session_state["pantalla"] = "menu"
 # Añadimos el boton a la pantalla de juego
 if st.session_state.get("pantalla") == "juego":
-    runpy.run_path(str(raiz_path / "Ahorcado.py"))
+    runpy.run_path(str(raiz_path/"src"/"Ahorcado.py"))
     st.sidebar.button("⬅ Volver al menú principal", on_click=volver_al_menu)
     st.stop()
 
