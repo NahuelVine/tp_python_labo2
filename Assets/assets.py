@@ -41,8 +41,8 @@ TITULO = {
 }
 VERSION = "v1.0"
 FOOTER = {
-    "es": {"creditos": "Realizado por Nahuel IOVINE y Marcos ZURITA TROPEA", "idioma": "ESPAÑOL"},
-    "en": {"creditos": "Made by Nahuel IOVINE and Marcos ZURITA TROPEA", "idioma": "ENGLISH"},
+    "es": {"creditos": "Realizado por Nahuel Iovine y Marcos Zurita Tropea", "idioma": "ESPAÑOL"},
+    "en": {"creditos": "Made by Nahuel Iovine and Marcos Zurita Tropea", "idioma": "ENGLISH"},
 }
 # Juego
 JUEGO_TEXTOS = {

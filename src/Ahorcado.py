@@ -1,3 +1,4 @@
+# Desarrollado por Nahuel Iovine y Marcos Zurita Tropea
 import random, sys
 from pathlib import Path
 import streamlit as st

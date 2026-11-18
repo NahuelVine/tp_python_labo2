@@ -1,3 +1,4 @@
+# Desarrollado por Nahuel Iovine y Marcos Zurita Tropea
 import json, runpy, sys
 from html import escape
 from pathlib import Path
