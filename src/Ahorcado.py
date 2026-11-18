@@ -1,19 +1,19 @@
-# Desarrollado por Nahuel Iovine y Marcos Zurita Tropea
-import random, sys
+# Desarrollado por Nahuel IOVINE y Marcos ZURITA TROPEA
+import random, sys, math
 from pathlib import Path
 import streamlit as st
 from PIL import Image
 
-# Aseguramos que el script apunte a la carpeta del proyecto
+# Bloque de código que hace que el Script apunte a la carpeta del proyecto.
 raiz_path = Path(__file__).resolve().parent.parent
-# Assets
+# Assets (Recursos utilizados por el código)
 sys.path.append(str(raiz_path))
-# Config
+# Config (Código relacionado a la configuración de la partida).
 sys.path.append(str(raiz_path/"src"))
-# Palabras
+# Listado de palabras en cuestión.
 palabras_path = raiz_path/"Assets"/"Palabras"
 
-# Configuracion y assets
+# Configuracion y Assets
 from Assets import assets
 import config
 
@@ -28,21 +28,24 @@ st.set_page_config(
     layout="centered",
 )
 
+
+# Acá se definen los parámetros del texto en cuestión. Aquello que dice "background-color" es el color de Fondo. El resto de colores  corresponde...
+# ...a las letras. Además, abajo donde dice "font-family" establecemos la Tipografía que aparece al ejecutarse, siendo "Impact".
 st.markdown("""                             
     <style>
     .stApp {
-        background-color: #3E0000;                                   
+        background-color: #200000;                                   
     }
     
     h1, h2, h3, h4, h5, h6, p, label, span, div, .stMarkdown {
-        color: #F7F7F7 !important;
+        color: #E8E8E8 !important;
         font-family: 'Impact', sans-serif !important;
         letter-spacing: 2px;
     }
     
     pre {
         font-family: 'Impact', sans-serif !important;
-        color: #F7F7F7 !important;
+        color: #E8E8E8 !important;
         background-color: rgba(255, 255, 255, 0.05) !important;
         border-radius: 10px;
     }
@@ -63,9 +66,15 @@ st.markdown("""
         font-family: 'Impact', sans-serif !important;
         letter-spacing: 2px;
     }
+
+    [data-testid="stImage"] img {
+        border: 4px solid #D5D000 !important;
+        border-radius: 6px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
+# Función que estandariza MAYÚSCULAS, minúsculas y letras con tildes.
 def limpiar_texto(texto):
     texto = texto.upper()
     reemplazos = {
@@ -76,6 +85,8 @@ def limpiar_texto(texto):
         texto = texto.replace(con_tilde, sin_tilde)
     return texto
 
+# Dentro de las carpetas hay unos archivos de texto con las palabras en cuestión. Particularmente en Chino (ch), Coreano (kr) y Japonés (jp), agregamos
+# "pistas" de la etimología a manera de cuadro de texto, puesto que, seamos francos, es más complicado tener conocimiento general acerca de estas palabras.
 def cargar_datos(idioma):
     archivos = {
         "es": (palabras_path/"Palabras_es.txt", None),
@@ -102,72 +113,24 @@ def cargar_datos(idioma):
     if ayuda_file:
         archivo_a = Path(ayuda_file)
         if not archivo_a.exists():
-            archivo_a = Path(ayuda_file.lower())
+            archivo_a = Path(archivo_a.lower())
         if archivo_a.exists():
             with open(archivo_a, encoding="utf-8") as f:
                 ayudas = [linea.strip() for linea in f if linea.strip()]
                 
     return palabras, ayudas
 
-AHORCADO = [
-    """
-       -----
-       |   |
-           |
-           |
-           |
-           |
-    =========""",
-    """
-       -----
-       |   |
-       O   |
-           |
-           |
-           |
-    =========""",
-    """
-       -----
-       |   |
-       O   |
-       |   |
-           |
-           |
-    =========""",
-    """
-       -----
-       |   |
-       O   |
-      /|   |
-           |
-           |
-    =========""",
-    """
-       -----
-       |   |
-       O   |
-      /|\\  |
-           |
-           |
-    =========""",
-    """
-       -----
-       |   |
-       O   |
-      /|\\  |
-      /    |
-           |
-    =========""",
-    """
-       -----
-       |   |
-       O   |
-      /|\\  |
-      / \\  |
-           |
-    =========""",
-]
+def mostrar_imagen_ahorcado(intentos_fallidos, max_intentos):
+    if intentos_fallidos == 0:
+        num_img = 0
+    else:
+        porcentaje = intentos_fallidos / max_intentos
+        num_img = min(math.ceil(porcentaje * 5), 5)
+    img_path = raiz_path / "Assets" / f"AH{num_img}.png"
+    if img_path.exists():
+        st.image(Image.open(img_path), width=180)
 
+# Funciones que determinan las condiciones de una Partida Ordinaria en base a la configuración dada.
 class AhorcadoLogica:
     def __init__(self, palabras, ayudas=None, max_intentos=6):
         self.palabras = palabras
@@ -213,7 +176,7 @@ class AhorcadoLogica:
     def perdio(self):
         return self.intentos_restantes <= 0
 
-
+# Similar a la anterior, solo que para el "Modo Supervivencia".
 class AhorcadoSupervivencia:
     def __init__(self, palabras, ayudas=None, max_vidas=6):
         self.palabras = palabras
@@ -293,8 +256,7 @@ if opcion == "jugar":
 
         juego = st.session_state.juego
 
-        indice_dibujo = min(len(juego.falladas), len(AHORCADO) - 1)
-        st.text(AHORCADO[indice_dibujo])
+        mostrar_imagen_ahorcado(len(juego.falladas), juego.max_intentos)
         
         st.markdown(textos_juego["palabra"].format(palabra=juego.estado()))
         st.write(textos_juego["modo_idioma"].format(idioma=textos_juego["idiomas"][st.session_state.idioma_config], modo=textos_juego["modos"]["clasico"]))
@@ -343,8 +305,7 @@ if opcion == "jugar":
         juego = st.session_state.juego_supervivencia
 
         intentos_fallidos = juego.max_vidas - juego.vidas_restantes
-        indice_dibujo = min(int((intentos_fallidos / juego.max_vidas) * (len(AHORCADO) - 1)), len(AHORCADO) - 1)
-        st.text(AHORCADO[indice_dibujo])
+        mostrar_imagen_ahorcado(intentos_fallidos, juego.max_vidas)
         
         st.markdown(textos_juego["palabra"].format(palabra=juego.estado()))
         st.markdown(textos_juego["super_racha"].format(n=juego.palabras_adivinadas))
