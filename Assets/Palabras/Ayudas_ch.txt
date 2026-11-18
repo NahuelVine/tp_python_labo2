@@ -13,3 +13,8 @@
 囗 (Territorio) + 玉 (Jade, Realeza, Rey) → 国
 化 (Cambiar) + 学 (Estudio, Estudiar) → 化学
 小 (Pequeño) + 大 (Grande) → 尖
+知 (Sabiduría) + 道 (Camino) → 知道
+跳 (Saltar) + 马 (Caballo) → 跳马
+卖 (Vender) + 国 (Territorio) + 贼 (Ladrón) → 卖国贼
+自 (Uno Mismo) + 然 (Bueno) → 自然
+向 (Dirigirse) + 量 (Cantidad) → 向量
