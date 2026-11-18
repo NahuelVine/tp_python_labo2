@@ -348,7 +348,7 @@ if opcion == "jugar":
         st.markdown(textos_juego["palabra"].format(palabra=juego.estado()))
         st.markdown(textos_juego["super_racha"].format(n=juego.palabras_adivinadas))
         st.write(textos_juego["modo_idioma"].format(idioma=textos_juego["idiomas"][st.session_state.idioma_config],modo=textos_juego["modos"]["supervivencia"]))
-        st.write(textos_juego["super_falladas"].format(' '.join(sorted(juego.falladas_palabra)) or '-'))
+        st.write(textos_juego["super_falladas"].format(letras=' '.join(sorted(juego.falladas_palabra)) or '-'))
         st.write(textos_juego["super_vidas"].format(vidas=juego.vidas_restantes,max=juego.max_vidas))
 
         ayuda_actual = juego.ayuda_actual
